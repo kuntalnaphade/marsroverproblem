@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="rolling.file.encoder.pattern" value="%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %-5level : %class{35} [%M:%line] - %msg%n" />
+    <property name="rolling.file.max.size" value="100MB" />
+    <property name="rolling.file.max.history" value="30" />
+    <property name="appender.queue.size" value="500" />
+    <property name="log.file.main" value="target/log/mfirule-service"/>
+    <property name="log.file.metrics" value="${log.file.main}-metrics" />
+
+    <!-- Enable LevelChangePropagator for jul-to-slf4j optimization -->
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator"/>
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.file.main}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${log.file.main}.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches the max -->
+                <maxFileSize>${rolling.file.max.size}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>${rolling.file.max.history}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${rolling.file.encoder.pattern}</pattern>
+        </encoder>
+    </appender>
+    
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${rolling.file.encoder.pattern}</pattern>
+		</encoder>
+	</appender>
+
+    <root level="INFO">
+        <appender-ref ref="ROLLING" />
+        <appender-ref ref="STDOUT" />
+    </root>
+
+</configuration>
