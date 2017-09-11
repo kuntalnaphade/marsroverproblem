@@ -20,7 +20,16 @@ Assume that the square directly North from (x, y) is (x, y+1).
 
 ### Running the application locally
 
-Copy the project into local workspace as an existing maven project and run the MarsRoverMain:
+Copy the project into local workspace as an existing maven project and run the MarsRoverMain as a Java Application:
+
+OR
+
+Run: mvn clean install
+
+This will create an executable jar at /roverproblem/target/roverproblem-0.1.0.jar location  
+
+Run: 
+java -jar roverproblem-0.1.0.jar
 
 Input the following arguments on Command Line
 
